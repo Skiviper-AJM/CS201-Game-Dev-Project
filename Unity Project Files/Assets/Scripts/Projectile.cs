@@ -2,13 +2,38 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    private Vector2 movementDirection;
+    private float speed;
+    private float duration;
+    private float timer;
+
+    public void SetMovement(Vector2 direction, float speed, float duration)
     {
-        // Check if the projectile hit a player, an enemy, or a wall
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Wall"))
+        movementDirection = direction.normalized;
+        this.speed = speed;
+        this.duration = duration;
+        timer = 0f;
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
+
+        if (timer >= duration)
         {
-            // Destroy the projectile
             Destroy(gameObject);
+            return;
+        }
+
+        transform.Translate(movementDirection * speed * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
+        {
+            Destroy(collision.gameObject); // Destroy the enemy
+            Destroy(gameObject); // Destroy the projectile
         }
     }
 }

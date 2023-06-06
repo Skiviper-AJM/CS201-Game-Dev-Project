@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9553eed81c38ac042a9650840d3e9e61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridCellPrefab: {fileID: 2208162928989348271, guid: e94a6f9d1a9adc6498215e3cf5ad4b66, type: 3}
-  alternateGridCellPrefab: {fileID: 2208162928989348271, guid: 9a293f8019ffb8e4da41e69099959764, type: 3}
-  width: 50
-  height: 50
+  gridTilePrefabA: {fileID: 2208162928989348271, guid: e94a6f9d1a9adc6498215e3cf5ad4b66, type: 3}
+  gridTilePrefabB: {fileID: 2208162928989348271, guid: 9a293f8019ffb8e4da41e69099959764, type: 3}
+  radius: 5
+  centerObject: {fileID: 0}

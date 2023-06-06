@@ -4,45 +4,66 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f; // Speed at which the player moves
-    public Transform movePoint; // Reference to the player's current position
-
-    public LayerMask whatStopsMovement; //lets me set which layer of items stops movements, in this case layer 8
-
+    public float moveSpeed = 5f;
+    public Transform movePoint;
+    public LayerMask whatStopsMovement;
     public Animator anim;
 
-    // Start is called before the first frame update
+    public BeatController beatController;
+
+    private bool hasMovedOnThisBeat;
+    private bool wasBeatOn;
+
     void Start()
     {
-        movePoint.parent = null; // Detaches the movePoint from its parent
+        movePoint.parent = null;
+        hasMovedOnThisBeat = false;
+        wasBeatOn = false;
+
+        beatController = GameObject.FindObjectOfType<BeatController>();
+        if (beatController == null)
+        {
+            Debug.LogError("No BeatController found in the scene. Please add one.");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {   
-        // Controls the movement of the player
-        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.fixedDeltaTime);
 
-        // Checks if the player has reached the movePoint within a certain distance
         if(Vector3.Distance(transform.position, movePoint.position) <= .05f)
         {
-            // Moves the player on the horizontal axis if the input is either 1 or -1 
-            if(Mathf.Abs (Input.GetAxisRaw("Horizontal")) == 1f)
+            if (beatController.isBeatOn && !hasMovedOnThisBeat)
             {
-                if(!Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), .2f, whatStopsMovement))
+                if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f)
                 {
-                    movePoint.position += new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
+                    if(!Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), .2f, whatStopsMovement))
+                    {
+                        movePoint.position += new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
+                        hasMovedOnThisBeat = true;
+                    }
                 }
-            } else // Moves the player on the vertical axis if the input is either 1 or -1 (else statement prevents diagonal movement)
-            if(Mathf.Abs (Input.GetAxisRaw("Vertical")) == 1f)
-            {
-                if(!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f), .2f, whatStopsMovement))
+                else if(Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f)
                 {
-                movePoint.position += new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
+                    if(!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f), .2f, whatStopsMovement))
+                    {
+                        movePoint.position += new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
+                        hasMovedOnThisBeat = true;
+                    }
                 }
             }
+        }
+    }
 
-                     
-        } 
+    void Update()
+    {
+        // Check if the beat just started
+        if (beatController.isBeatOn && !wasBeatOn)
+        {
+            hasMovedOnThisBeat = false;
+        }
+
+        // Update wasBeatOn to reflect the current state
+        wasBeatOn = beatController.isBeatOn;
     }
 }

@@ -11,7 +11,7 @@ public class BeatController : MonoBehaviour
 
     private float beatInterval; // Time interval between beats
     private float timer; // Timer to keep track of the beat timing
-    private bool hasActedOnBeat = false; // Indicates if the player has acted on the current beat
+    public bool hasActedOnBeat = false; // Indicates if the player has acted on the current beat
 
     private AudioSource audioSource; // Reference to the AudioSource component
 
@@ -32,52 +32,39 @@ public class BeatController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+   void Update()
+   {
         // Update the timer with the time elapsed since the last frame
         timer += Time.deltaTime;
 
         // Check if it's time for the next beat
         if (timer >= beatInterval)
         {
-            // Reset the timer
-            timer -= beatInterval;
-
             // Toggle the beat state
             isBeatOn = !isBeatOn;
             hasActedOnBeat = false;
 
             // Play sound or trigger other actions when the beat is "on"
-            if (isBeatOn)
+            if (isBeatOn && beatSound != null)
             {
-                // Play sound if a sound bite is attached
-                if (beatSound != null)
-                {
-                    audioSource.PlayOneShot(beatSound);
-                }
+                audioSource.PlayOneShot(beatSound);
             }
+            
+            // Reset the timer
+            timer = 0f;
         }
     }
 
-    // Check if the player has acted on the beat this beat
-    public bool HasActedOnBeat()
-    {
-        return hasActedOnBeat;
-    }
+        // Check if the player is within the grace period before or after the beat
+        public bool IsWithinGracePeriod()
+        {
+            // Check if the current time is within the grace period before or after the beat
+            float graceStartTime = 0f;
+            float graceEndTime = gracePeriod;
+            float graceEndTimePostBeat = beatInterval - gracePeriod;
 
-    // Called by other scripts to indicate that the player has acted on the beat this beat
-    public void PlayerActedOnBeat()
-    {
-        hasActedOnBeat = true;
-    }
+            // Check the grace period before and after the beat
+            return (timer >= graceStartTime && timer <= graceEndTime) || (timer >= graceEndTimePostBeat);
+        }
 
-    // Check if the player is within the grace period before or after the beat
-    public bool IsWithinGracePeriod()
-    {
-        // Check if the current time is within the grace period
-        float graceStartTime = beatInterval - gracePeriod;
-        float graceEndTime = beatInterval + gracePeriod;
-
-        return timer >= graceStartTime && timer <= graceEndTime;
-    }
 }

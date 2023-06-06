@@ -40,24 +40,47 @@ public class EnemyController : MonoBehaviour
             if (beatController.isBeatOn && !hasMovedOnThisBeat)
             {
                 Vector3 directionToPlayer = player.transform.position - transform.position;
-                directionToPlayer = directionToPlayer.normalized;
+                Vector3 moveDirection = Vector3.zero;
 
-                if (!Physics2D.OverlapCircle(movePoint.position + directionToPlayer, .2f, whatStopsMovement))
+                float distanceX = Mathf.Abs(player.transform.position.x - transform.position.x);
+                float distanceY = Mathf.Abs(player.transform.position.y - transform.position.y);
+                bool sameX = Mathf.Approximately(transform.position.x, player.transform.position.x);
+                bool sameY = Mathf.Approximately(transform.position.y, player.transform.position.y);
+
+                // if on same X, maintain preferred distance on Y and vice versa
+                if (sameX)
                 {
-                    if (Mathf.Abs(player.transform.position.x - transform.position.x) <= preferredDistance)
-                    {
-                        if (Mathf.Abs(player.transform.position.y - transform.position.y) <= preferredDistance)
-                        {
-                            GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-                            newProjectile.GetComponent<Projectile>().direction = directionToPlayer;
-                            hasMovedOnThisBeat = true;
-                        }
-                    }
-                    else
-                    {
-                        movePoint.position += directionToPlayer;
-                        hasMovedOnThisBeat = true;
-                    }
+                    if(distanceY < preferredDistance) 
+                        moveDirection = new Vector3(0, -Mathf.Sign(directionToPlayer.y), 0);
+                    else if(distanceY > preferredDistance) 
+                        moveDirection = new Vector3(0, Mathf.Sign(directionToPlayer.y), 0);
+                }
+                else if (sameY)
+                {
+                    if(distanceX < preferredDistance)
+                        moveDirection = new Vector3(-Mathf.Sign(directionToPlayer.x), 0, 0);
+                    else if(distanceX > preferredDistance)
+                        moveDirection = new Vector3(Mathf.Sign(directionToPlayer.x), 0, 0);
+                }
+                else
+                {
+                    if (distanceY < distanceX)
+                        moveDirection = new Vector3(0, Mathf.Sign(directionToPlayer.y), 0);
+                    else if (distanceX <= distanceY)
+                        moveDirection = new Vector3(Mathf.Sign(directionToPlayer.x), 0, 0);
+                }
+
+                if (!Physics2D.OverlapCircle(movePoint.position + moveDirection, .2f, whatStopsMovement))
+                {
+                    movePoint.position += moveDirection;
+                    hasMovedOnThisBeat = true;
+                }
+
+                if ((distanceX <= preferredDistance && sameY) || (distanceY <= preferredDistance && sameX))
+                {
+                    GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                    newProjectile.GetComponent<Projectile>().direction = directionToPlayer;
+                    hasMovedOnThisBeat = true;
                 }
             }
         }

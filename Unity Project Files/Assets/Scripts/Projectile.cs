@@ -1,47 +1,56 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float lifespan = 5f; 
-    public Vector3 direction;
+    public Vector2 direction;
+    public float moveSpeed = 10f;
+    public float lifeTime = 2f; // Maximum life time of the projectile
 
-    private BeatController beatController;
-    private bool hasMovedOnThisBeat = true; // Changed to true so it doesn't move on the first beat
+    private float moveTime = 0.5f; // Time taken to move 1 tile
+    private bool isMoving;
 
     void Start()
     {
-        beatController = GameObject.FindObjectOfType<BeatController>();
-        if (beatController == null)
-        {
-            Debug.LogError("No BeatController found in the scene. Please add one.");
-        }
-
-        // Set the projectile to delete itself after its lifespan expires
-        Destroy(gameObject, lifespan);
+        StartCoroutine("LifeTimer");
     }
 
     void Update()
     {
-        // Move the projectile 2 tiles per beat
-        if (beatController.isBeatOn && !hasMovedOnThisBeat)
+        if (!isMoving)
         {
-            // Normalize direction to ensure it only has a magnitude of 1, and multiply by 2 to move 2 tiles per beat
-            direction = direction.normalized * 2;
-
-            transform.position += direction;
-            hasMovedOnThisBeat = true;
-        }
-        else if (!beatController.isBeatOn)
-        {
-            hasMovedOnThisBeat = false;
+            StartCoroutine(MoveCoroutine(direction));
         }
     }
 
-    // Detect collision with enemy or obstacle
+    private IEnumerator MoveCoroutine(Vector2 direction)
+    {
+        isMoving = true;
+        float elapsedTime = 0;
+        Vector3 startPos = transform.position;
+        Vector3 endPos = transform.position + new Vector3(direction.x, direction.y, 0);
+
+        while (elapsedTime < moveTime)
+        {
+            transform.position = Vector3.Lerp(startPos, endPos, (elapsedTime / moveTime));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = endPos;
+        isMoving = false;
+    }
+
+    IEnumerator LifeTimer()
+    {
+        yield return new WaitForSeconds(lifeTime);
+        Destroy(gameObject);
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "Obstacle")
+        if (other.tag == "Enemy" || other.tag == "Obstacle")
         {
             Destroy(gameObject);
         }

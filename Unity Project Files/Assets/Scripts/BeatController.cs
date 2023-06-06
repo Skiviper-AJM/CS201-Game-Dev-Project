@@ -9,6 +9,17 @@ public class BeatController : MonoBehaviour
     public AudioClip beatSound; // Sound bite to play when the beat is on
     public float gracePeriod = 0.1f; // Grace period duration in seconds
 
+    public float GetTimer()
+    {
+        return timer;
+    }
+
+    public float GetBeatInterval()
+    {
+        return beatInterval;
+    }
+
+
     private float beatInterval; // Time interval between beats
     private float timer; // Timer to keep track of the beat timing
     public bool hasActedOnBeat = false; // Indicates if the player has acted on the current beat

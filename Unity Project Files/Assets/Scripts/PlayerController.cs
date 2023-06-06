@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     public Transform movePoint;
     public LayerMask whatStopsMovement;
     public Animator anim;
+    public bool HasMovedOnThisBeat()
+    {
+        return hasMovedOnThisBeat;
+    }
 
     public BeatController beatController;
 

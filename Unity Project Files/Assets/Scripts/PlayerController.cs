@@ -7,11 +7,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     public Transform movePoint;
     public LayerMask whatStopsMovement;
-    public Animator anim;
-    public bool HasMovedOnThisBeat()
-    {
-        return hasMovedOnThisBeat;
-    }
+    public GameObject projectilePrefab; // Reference to the projectile prefab
 
     public BeatController beatController;
 
@@ -55,6 +51,12 @@ public class PlayerController : MonoBehaviour
                         hasMovedOnThisBeat = true;
                     }
                 }
+                else if (Input.GetKey(KeyCode.Space)) // Added code for shooting
+                {
+                    GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                    newProjectile.GetComponent<Projectile>().direction = GetComponentInChildren<PlayerSpriteController>().GetFacingDirection();
+                    hasMovedOnThisBeat = true;
+                }
             }
         }
     }
@@ -69,5 +71,10 @@ public class PlayerController : MonoBehaviour
 
         // Update wasBeatOn to reflect the current state
         wasBeatOn = beatController.isBeatOn;
+    }
+
+    public bool HasMovedOnThisBeat()
+    {
+        return hasMovedOnThisBeat;
     }
 }

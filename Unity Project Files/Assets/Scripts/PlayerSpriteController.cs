@@ -57,4 +57,29 @@ public class PlayerSpriteController : MonoBehaviour
             lastPosition = playerController.transform.position;
         }
     }
+
+    public Vector3 GetFacingDirection()
+    {
+        if (spriteRenderer.sprite == rightSprite)
+        {
+            return Vector3.right;
+        }
+        else if (spriteRenderer.sprite == leftSprite)
+        {
+            return Vector3.left;
+        }
+        else if (spriteRenderer.sprite == upSprite)
+        {
+            return Vector3.up;
+        }
+        else if (spriteRenderer.sprite == downSprite)
+        {
+            return Vector3.down;
+        }
+        else
+        {
+            // Default to facing right if no direction is set
+            return Vector3.right;
+        }
+    }
 }

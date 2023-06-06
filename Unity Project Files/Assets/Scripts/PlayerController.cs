@@ -53,8 +53,9 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.Space)) // Added code for shooting
                 {
-                    GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-                    newProjectile.GetComponent<Projectile>().direction = GetComponentInChildren<PlayerSpriteController>().GetFacingDirection();
+                    Vector3 direction = GetComponentInChildren<PlayerSpriteController>().GetFacingDirection();
+                    GameObject newProjectile = Instantiate(projectilePrefab, transform.position + direction, Quaternion.identity);
+                    newProjectile.GetComponent<Projectile>().direction = direction;
                     hasMovedOnThisBeat = true;
                 }
             }

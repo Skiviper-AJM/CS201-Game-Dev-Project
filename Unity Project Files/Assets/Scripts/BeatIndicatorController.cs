@@ -8,10 +8,11 @@ public class BeatIndicatorController : MonoBehaviour
     public RectTransform rightIndicator; // Reference to the right image's RectTransform
     public BeatController beatController; // Reference to the BeatController
 
-    private float maxDistance = 100; // Maximum distance from the center to either end of the bar
-    private float currentDistance; // Current distance from the center
+    private Vector2 leftStartPos; // Starting position of the left indicator
+    private Vector2 rightStartPos; // Starting position of the right indicator
 
-    // Start is called before the first frame update
+    private float timer; // Timer to keep track of the time elapsed since the last reset
+
     void Start()
     {
         beatController = GameObject.FindObjectOfType<BeatController>();
@@ -24,17 +25,33 @@ public class BeatIndicatorController : MonoBehaviour
         {
             Debug.LogError("Both leftIndicator and rightIndicator should be assigned in the Inspector.");
         }
+        else
+        {
+            // Store the starting positions of the indicators
+            leftStartPos = leftIndicator.anchoredPosition;
+            rightStartPos = rightIndicator.anchoredPosition;
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Calculate the current distance based on the beat timer
-        currentDistance = maxDistance * (beatController.GetTimer() / beatController.GetBeatInterval());
+        if (beatController.isBeatOn)
+        {
+            // Reset the position of the indicators and timer
+            leftIndicator.anchoredPosition = leftStartPos;
+            rightIndicator.anchoredPosition = rightStartPos;
+            timer = 0;
+        }
+        else
+        {
+            timer += Time.deltaTime;
 
+            // Move the indicators towards the center on the x-axis only
+            float leftNewX = Mathf.Lerp(leftStartPos.x, 0, timer / beatController.GetBeatInterval());
+            float rightNewX = Mathf.Lerp(rightStartPos.x, 0, timer / beatController.GetBeatInterval());
 
-        // Set the position of the indicators
-        leftIndicator.anchoredPosition = new Vector2(-currentDistance, 0);
-        rightIndicator.anchoredPosition = new Vector2(currentDistance, 0);
+            leftIndicator.anchoredPosition = new Vector2(leftNewX, leftIndicator.anchoredPosition.y);
+            rightIndicator.anchoredPosition = new Vector2(rightNewX, rightIndicator.anchoredPosition.y);
+        }
     }
 }

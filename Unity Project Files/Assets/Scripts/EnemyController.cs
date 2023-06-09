@@ -20,6 +20,8 @@ public class EnemyController : MonoBehaviour
 
     private GameObject activeProjectile; // Reference to the active projectile
 
+    private bool canFireProjectile; // Flag to control firing projectiles
+
     void Start()
     {
         hasMovedOnThisBeat = false;
@@ -35,13 +37,15 @@ public class EnemyController : MonoBehaviour
         }
 
         movePoint = transform.position; // Set movePoint to the initial position
+
+        canFireProjectile = true; // Enable firing projectile on start
     }
 
     void FixedUpdate()
-    {   
+    {
         transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.fixedDeltaTime);
 
-        if(Vector3.Distance(transform.position, movePoint) <= .05f)
+        if (Vector3.Distance(transform.position, movePoint) <= .05f)
         {
             if (beatController.isBeatOn && !hasMovedOnThisBeat)
             {
@@ -56,16 +60,16 @@ public class EnemyController : MonoBehaviour
                 // if on same X, maintain preferred distance on Y and vice versa
                 if (sameX)
                 {
-                    if(distanceY < preferredDistance) 
+                    if (distanceY < preferredDistance)
                         moveDirection = new Vector3(0, -Mathf.Sign(directionToPlayer.y), 0);
-                    else if(distanceY > preferredDistance) 
+                    else if (distanceY > preferredDistance)
                         moveDirection = new Vector3(0, Mathf.Sign(directionToPlayer.y), 0);
                 }
                 else if (sameY)
                 {
-                    if(distanceX < preferredDistance)
+                    if (distanceX < preferredDistance)
                         moveDirection = new Vector3(-Mathf.Sign(directionToPlayer.x), 0, 0);
-                    else if(distanceX > preferredDistance)
+                    else if (distanceX > preferredDistance)
                         moveDirection = new Vector3(Mathf.Sign(directionToPlayer.x), 0, 0);
                 }
                 else
@@ -84,11 +88,12 @@ public class EnemyController : MonoBehaviour
 
                 if ((distanceX <= preferredDistance && sameY) || (distanceY <= preferredDistance && sameX))
                 {
-                    if (activeProjectile == null)
+                    if (canFireProjectile)
                     {
-                        GameObject newProjectile = Instantiate(projectilePrefab, transform.position + enemySpriteController.GetFacingDirection(), Quaternion.identity);
-                        newProjectile.GetComponent<EnemyProjectile>().direction = enemySpriteController.GetFacingDirection();
+                        GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                        newProjectile.GetComponent<EnemyProjectile>().direction = enemySpriteController.GetFacingDirection(); // Use the direction from the sprite controller
                         activeProjectile = newProjectile;
+                        canFireProjectile = false; // Disable firing until the active projectile is destroyed
                     }
                 }
             }
@@ -109,7 +114,7 @@ public class EnemyController : MonoBehaviour
         // Check if the active projectile is destroyed
         if (activeProjectile == null)
         {
-            hasMovedOnThisBeat = false; // Allow firing a new projectile on the next beat
+            canFireProjectile = true; // Enable firing if there's no active projectile
         }
     }
 

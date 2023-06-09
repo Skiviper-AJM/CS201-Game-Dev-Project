@@ -1,0 +1,4 @@
+The enemy can both move and fire a projectile simultaniously on occasion
+
+the projectiles currently do not move when they are fired by the enemy - only the player
+

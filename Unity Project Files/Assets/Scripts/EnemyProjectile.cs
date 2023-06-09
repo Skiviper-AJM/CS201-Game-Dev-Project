@@ -24,12 +24,12 @@ public class EnemyProjectile : MonoBehaviour
         }
     }
 
-    private IEnumerator MoveCoroutine(Vector2 direction)
+    private IEnumerator MoveCoroutine(Vector3 direction)
     {
         isMoving = true;
         float elapsedTime = 0;
         Vector3 startPos = transform.position;
-        Vector3 endPos = transform.position + new Vector3(direction.x, direction.y, 0);
+        Vector3 endPos = transform.position + direction;
 
         while (elapsedTime < moveTime)
         {
@@ -41,6 +41,7 @@ public class EnemyProjectile : MonoBehaviour
         transform.position = endPos;
         isMoving = false;
     }
+
 
     IEnumerator LifeTimer()
     {
@@ -55,4 +56,5 @@ public class EnemyProjectile : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 }

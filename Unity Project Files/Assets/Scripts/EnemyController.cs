@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     public float moveSpeed = 5f;
-    public Transform movePoint;
     public LayerMask whatStopsMovement;
     public GameObject projectilePrefab; // Reference to the projectile prefab
     public int preferredDistance = 2;
@@ -16,26 +15,31 @@ public class EnemyController : MonoBehaviour
     private bool hasMovedOnThisBeat;
     private bool wasBeatOn;
 
+    private EnemySpriteController enemySpriteController; // Reference to the EnemySpriteController
+    private Vector3 movePoint; // Use a Vector3 variable for movePoint
+
     void Start()
     {
-        movePoint.parent = null;
         hasMovedOnThisBeat = false;
         wasBeatOn = false;
 
         player = GameObject.FindGameObjectWithTag("Player");
+        enemySpriteController = GetComponentInChildren<EnemySpriteController>(); // Get the EnemySpriteController from child objects
 
         beatController = GameObject.FindObjectOfType<BeatController>();
         if (beatController == null)
         {
             Debug.LogError("No BeatController found in the scene. Please add one.");
         }
+
+        movePoint = transform.position; // Set movePoint to the initial position
     }
 
     void FixedUpdate()
     {   
-        transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.fixedDeltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.fixedDeltaTime);
 
-        if(Vector3.Distance(transform.position, movePoint.position) <= .05f)
+        if(Vector3.Distance(transform.position, movePoint) <= .05f)
         {
             if (beatController.isBeatOn && !hasMovedOnThisBeat)
             {
@@ -70,16 +74,16 @@ public class EnemyController : MonoBehaviour
                         moveDirection = new Vector3(Mathf.Sign(directionToPlayer.x), 0, 0);
                 }
 
-                if (!Physics2D.OverlapCircle(movePoint.position + moveDirection, .2f, whatStopsMovement))
+                if (!Physics2D.OverlapCircle(transform.position + moveDirection, .2f, whatStopsMovement))
                 {
-                    movePoint.position += moveDirection;
+                    movePoint = transform.position + moveDirection; // Update the movePoint
                     hasMovedOnThisBeat = true;
                 }
 
                 if ((distanceX <= preferredDistance && sameY) || (distanceY <= preferredDistance && sameX))
                 {
                     GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-                    newProjectile.GetComponent<Projectile>().direction = directionToPlayer;
+                    newProjectile.GetComponent<EnemyProjectile>().direction = enemySpriteController.GetFacingDirection(); // Use the direction from the sprite controller
                     hasMovedOnThisBeat = true;
                 }
             }

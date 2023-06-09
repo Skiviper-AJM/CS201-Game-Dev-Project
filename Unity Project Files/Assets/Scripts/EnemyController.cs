@@ -18,6 +18,8 @@ public class EnemyController : MonoBehaviour
     private EnemySpriteController enemySpriteController; // Reference to the EnemySpriteController
     private Vector3 movePoint; // Use a Vector3 variable for movePoint
 
+    private GameObject activeProjectile; // Reference to the active projectile
+
     void Start()
     {
         hasMovedOnThisBeat = false;
@@ -82,9 +84,12 @@ public class EnemyController : MonoBehaviour
 
                 if ((distanceX <= preferredDistance && sameY) || (distanceY <= preferredDistance && sameX))
                 {
-                    GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-                    newProjectile.GetComponent<EnemyProjectile>().direction = enemySpriteController.GetFacingDirection(); // Use the direction from the sprite controller
-                    hasMovedOnThisBeat = true;
+                    if (activeProjectile == null)
+                    {
+                        GameObject newProjectile = Instantiate(projectilePrefab, transform.position + enemySpriteController.GetFacingDirection(), Quaternion.identity);
+                        newProjectile.GetComponent<EnemyProjectile>().direction = enemySpriteController.GetFacingDirection();
+                        activeProjectile = newProjectile;
+                    }
                 }
             }
         }
@@ -100,6 +105,12 @@ public class EnemyController : MonoBehaviour
 
         // Update wasBeatOn to reflect the current state
         wasBeatOn = beatController.isBeatOn;
+
+        // Check if the active projectile is destroyed
+        if (activeProjectile == null)
+        {
+            hasMovedOnThisBeat = false; // Allow firing a new projectile on the next beat
+        }
     }
 
     public bool HasMovedOnThisBeat()

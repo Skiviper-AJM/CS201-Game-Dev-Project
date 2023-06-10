@@ -1,4 +1,4 @@
-The enemy can both move and fire a projectile simultaniously on occasion
+The enemy can both move and fire a projectile simultaniously when the player chases them (as they are moving away, rotating back and firing all at once)
 
-the projectiles currently do not move when they are fired by the enemy - only the player
 
+need some kind of pathfinding algorithm for the enemies to actually target the player

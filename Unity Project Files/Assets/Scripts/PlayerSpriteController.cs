@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerSpriteController : MonoBehaviour
 {
-    public Sprite upSprite;
-    public Sprite downSprite;
-    public Sprite leftSprite;
-    public Sprite rightSprite;
+    public Sprite upSprite; 
+    public Sprite downSprite; 
+    public Sprite leftSprite; 
+    public Sprite rightSprite; 
 
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer; 
     private PlayerController playerController;
 
     private Vector3 lastPosition;
@@ -33,30 +33,23 @@ public class PlayerSpriteController : MonoBehaviour
 
     void Update()
     {
-        // Check arrow key inputs
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
-
-        if (horizontalInput != 0f || verticalInput != 0f)
+        if(Input.GetKey(KeyCode.UpArrow))
         {
-            if (horizontalInput > 0f)
-            {
-                spriteRenderer.sprite = rightSprite;
-            }
-            else if (horizontalInput < 0f)
-            {
-                spriteRenderer.sprite = leftSprite;
-            }
-            else if (verticalInput > 0f)
-            {
-                spriteRenderer.sprite = upSprite;
-            }
-            else if (verticalInput < 0f)
-            {
-                spriteRenderer.sprite = downSprite;
-            }
+            spriteRenderer.sprite = upSprite;
         }
-        else if (playerController.HasMovedOnThisBeat())
+        else if(Input.GetKey(KeyCode.DownArrow))
+        {
+            spriteRenderer.sprite = downSprite;
+        }
+        else if(Input.GetKey(KeyCode.LeftArrow))
+        {
+            spriteRenderer.sprite = leftSprite;
+        }
+        else if(Input.GetKey(KeyCode.RightArrow))
+        {
+            spriteRenderer.sprite = rightSprite;
+        }
+        else if(playerController.HasMovedOnThisBeat())
         {
             Vector3 moveDirection = playerController.transform.position - lastPosition;
 

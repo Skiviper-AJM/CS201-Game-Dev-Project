@@ -35,7 +35,14 @@ public class PlayerController : MonoBehaviour
         {
             if (beatController.isBeatOn && !hasMovedOnThisBeat)
             {
-                if (Input.GetKey(KeyCode.W))
+                if (Input.GetKey(KeyCode.Space)) // Added code for shooting
+                {
+                    Vector3 direction = GetComponentInChildren<PlayerSpriteController>().GetFacingDirection();
+                    GameObject newProjectile = Instantiate(projectilePrefab, transform.position + direction, Quaternion.identity);
+                    newProjectile.GetComponent<Projectile>().direction = direction;
+                    hasMovedOnThisBeat = true;
+                }
+                else if (Input.GetKey(KeyCode.W))
                 {
                     if (!Physics2D.OverlapCircle(movePoint.position + Vector3.up, .2f, whatStopsMovement))
                     {
@@ -66,13 +73,6 @@ public class PlayerController : MonoBehaviour
                         movePoint.position += Vector3.right;
                         hasMovedOnThisBeat = true;
                     }
-                }
-                else if (Input.GetKey(KeyCode.Space)) // Added code for shooting
-                {
-                    Vector3 direction = GetComponentInChildren<PlayerSpriteController>().GetFacingDirection();
-                    GameObject newProjectile = Instantiate(projectilePrefab, transform.position + direction, Quaternion.identity);
-                    newProjectile.GetComponent<Projectile>().direction = direction;
-                    hasMovedOnThisBeat = true;
                 }
             }
         }

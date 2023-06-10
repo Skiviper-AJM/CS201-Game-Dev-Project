@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     public LayerMask whatStopsMovement;
     public GameObject projectilePrefab; // Reference to the projectile prefab
     public int preferredDistance = 2;
+    public LayerMask obstacleMask;
 
     public BeatController beatController;
 
@@ -90,11 +91,18 @@ public class EnemyController : MonoBehaviour
                 {
                     if (canFireProjectile)
                     {
-                        enemySpriteController.SetFacingDirectionToPlayer(player); // change the sprite direction before shooting
-                        GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-                        newProjectile.GetComponent<EnemyProjectile>().direction = enemySpriteController.GetFacingDirection(); 
-                        activeProjectile = newProjectile;
-                        canFireProjectile = false; 
+                        Vector2 directionToPlayerNormalized = (player.transform.position - transform.position).normalized;
+                        RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayerNormalized, preferredDistance, obstacleMask);
+
+                        if (hit.collider == null || hit.collider.gameObject == player)
+                        {
+                            // If the raycast doesn't hit any obstacle or it hits the player, then shoot
+                            enemySpriteController.SetFacingDirectionToPlayer(player); // change the sprite direction before shooting
+                            GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+                            newProjectile.GetComponent<EnemyProjectile>().direction = enemySpriteController.GetFacingDirection();
+                            activeProjectile = newProjectile;
+                            canFireProjectile = false;
+                        }
                     }
                 }
 

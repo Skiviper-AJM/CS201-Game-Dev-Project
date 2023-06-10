@@ -532,6 +532,10 @@ PrefabInstance:
       value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
+      propertyPath: moveSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
       propertyPath: beatController
       value: 
       objectReference: {fileID: 1676891625}
@@ -541,7 +545,7 @@ PrefabInstance:
       objectReference: {fileID: 4346971389278527870, guid: 6e2a54f5f0612bd40b5b3cf3ee1fc8fe, type: 3}
     - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
       propertyPath: preferredDistance
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}

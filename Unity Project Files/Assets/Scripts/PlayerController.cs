@@ -28,26 +28,42 @@ public class PlayerController : MonoBehaviour
     }
 
     void FixedUpdate()
-    {   
+    {
         transform.position = Vector3.MoveTowards(transform.position, movePoint.position, moveSpeed * Time.fixedDeltaTime);
 
-        if(Vector3.Distance(transform.position, movePoint.position) <= .05f)
+        if (Vector3.Distance(transform.position, movePoint.position) <= .05f)
         {
             if (beatController.isBeatOn && !hasMovedOnThisBeat)
             {
-                if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) == 1f)
+                if (Input.GetKey(KeyCode.W))
                 {
-                    if(!Physics2D.OverlapCircle(movePoint.position + new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f), .2f, whatStopsMovement))
+                    if (!Physics2D.OverlapCircle(movePoint.position + Vector3.up, .2f, whatStopsMovement))
                     {
-                        movePoint.position += new Vector3(Input.GetAxisRaw("Horizontal"), 0f, 0f);
+                        movePoint.position += Vector3.up;
                         hasMovedOnThisBeat = true;
                     }
                 }
-                else if(Mathf.Abs(Input.GetAxisRaw("Vertical")) == 1f)
+                else if (Input.GetKey(KeyCode.A))
                 {
-                    if(!Physics2D.OverlapCircle(movePoint.position + new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f), .2f, whatStopsMovement))
+                    if (!Physics2D.OverlapCircle(movePoint.position + Vector3.left, .2f, whatStopsMovement))
                     {
-                        movePoint.position += new Vector3(0f, Input.GetAxisRaw("Vertical"), 0f);
+                        movePoint.position += Vector3.left;
+                        hasMovedOnThisBeat = true;
+                    }
+                }
+                else if (Input.GetKey(KeyCode.S))
+                {
+                    if (!Physics2D.OverlapCircle(movePoint.position + Vector3.down, .2f, whatStopsMovement))
+                    {
+                        movePoint.position += Vector3.down;
+                        hasMovedOnThisBeat = true;
+                    }
+                }
+                else if (Input.GetKey(KeyCode.D))
+                {
+                    if (!Physics2D.OverlapCircle(movePoint.position + Vector3.right, .2f, whatStopsMovement))
+                    {
+                        movePoint.position += Vector3.right;
                         hasMovedOnThisBeat = true;
                     }
                 }

@@ -82,4 +82,33 @@ public class EnemySpriteController : MonoBehaviour
             return Vector3.right;
         }
     }
+
+    public void SetFacingDirectionToPlayer(GameObject player)
+    {
+        Vector3 directionToPlayer = player.transform.position - transform.position;
+        
+        if (Mathf.Abs(directionToPlayer.x) > Mathf.Abs(directionToPlayer.y))
+        {
+            if (directionToPlayer.x > 0)
+            {
+                spriteRenderer.sprite = rightSprite;
+            }
+            else
+            {
+                spriteRenderer.sprite = leftSprite;
+            }
+        }
+        else
+        {
+            if (directionToPlayer.y > 0)
+            {
+                spriteRenderer.sprite = upSprite;
+            }
+            else
+            {
+                spriteRenderer.sprite = downSprite;
+            }
+        }
+    }
+
 }

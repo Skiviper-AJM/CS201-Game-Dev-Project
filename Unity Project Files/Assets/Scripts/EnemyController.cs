@@ -90,12 +90,14 @@ public class EnemyController : MonoBehaviour
                 {
                     if (canFireProjectile)
                     {
+                        enemySpriteController.SetFacingDirectionToPlayer(player); // change the sprite direction before shooting
                         GameObject newProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-                        newProjectile.GetComponent<EnemyProjectile>().direction = enemySpriteController.GetFacingDirection(); // Use the direction from the sprite controller
+                        newProjectile.GetComponent<EnemyProjectile>().direction = enemySpriteController.GetFacingDirection(); 
                         activeProjectile = newProjectile;
-                        canFireProjectile = false; // Disable firing until the active projectile is destroyed
+                        canFireProjectile = false; 
                     }
                 }
+
             }
         }
     }

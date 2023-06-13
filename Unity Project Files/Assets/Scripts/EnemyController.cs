@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     public int preferredDistance = 2;
     public bool isStationary; // Added boolean to control if the enemy is stationary
 
+    public int enemyHP = 1; //sets the enemies max HP
     public BeatController beatController;
     public int bulletDamage = 1; //amount of damage this enemy types bullets do
     private GameObject player;

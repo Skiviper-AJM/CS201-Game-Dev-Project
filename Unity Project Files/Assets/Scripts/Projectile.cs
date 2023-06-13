@@ -53,6 +53,28 @@ public class Projectile : MonoBehaviour
         if (other.tag == "Enemy" || other.tag == "Obstacle")
         {
             Destroy(gameObject);
+            if (other.tag == "Enemy")
+            {
+                EnemyController enemyController = other.GetComponent<EnemyController>();
+                if (enemyController != null)
+                {
+                    enemyController.enemyHP -= 1; // Reduce enemy HP by 1
+                    if (enemyController.enemyHP <= 0) // If enemy HP is 0 or less, destroy the enemy
+                    {
+                        // If player is within healing distance, heal the player
+                        float playerDistance = Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position);
+                        if (playerDistance <= 5) // Adjust this distance as needed
+                        {
+                            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().Heal(1);
+                        }
+                        Destroy(other.gameObject);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("No EnemyController component found on the Enemy GameObject");
+                }
+            }
         }
     }
 }

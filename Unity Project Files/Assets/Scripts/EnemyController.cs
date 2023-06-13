@@ -8,7 +8,6 @@ public class EnemyController : MonoBehaviour
     public LayerMask whatStopsMovement;
     public GameObject projectilePrefab; // Reference to the projectile prefab
     public int preferredDistance = 2;
-    public LayerMask obstacleMask;
     public bool isStationary; // Added boolean to control if the enemy is stationary
 
     public BeatController beatController;
@@ -150,7 +149,7 @@ public class EnemyController : MonoBehaviour
             if (canFireProjectile && previousMove == movePoint)
             {
                 Vector2 directionToPlayerNormalized = (player.transform.position - transform.position).normalized;
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayerNormalized, preferredDistance, obstacleMask);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayerNormalized, preferredDistance, whatStopsMovement);
 
                 if (hit.collider == null || hit.collider.gameObject == player)
                 {

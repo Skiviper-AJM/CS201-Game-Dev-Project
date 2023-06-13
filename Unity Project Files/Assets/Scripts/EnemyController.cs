@@ -145,7 +145,7 @@ public class EnemyController : MonoBehaviour
         bool sameX = Mathf.Approximately(transform.position.x, player.transform.position.x);
         bool sameY = Mathf.Approximately(transform.position.y, player.transform.position.y);
 
-        if (((distanceX <= preferredDistance && sameY) || (distanceY <= preferredDistance && sameX)) || ((sameX && isStationary) || (sameY && isStationary)))
+        if (((distanceX <= preferredDistance && sameY) || (distanceY <= preferredDistance && sameX)) || ((sameX && isStationary && distanceX >= preferredDistance) || (sameY && isStationary && distanceY >= preferredDistance)))
         {
             if (canFireProjectile && previousMove == movePoint)
             {

@@ -77,6 +77,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        // Handle player death here
+        Destroy(gameObject);
     }
 }

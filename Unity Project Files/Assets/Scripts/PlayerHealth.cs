@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 6;
     public int currentHealth;
 
+    public Canvas overlayCanvas;
     public Image RedHeartA;
     public Image RedHeartB;
     public Image RedHeartC;
@@ -78,5 +79,9 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         Destroy(gameObject);
+
+        overlayCanvas.enabled = true;
+
+        Time.timeScale = 0f;
     }
 }

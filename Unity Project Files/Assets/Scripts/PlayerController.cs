@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
         movePoint.parent = null;
         hasMovedOnThisBeat = false;
         wasBeatOn = false;

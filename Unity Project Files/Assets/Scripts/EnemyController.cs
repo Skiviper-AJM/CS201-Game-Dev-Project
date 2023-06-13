@@ -15,6 +15,8 @@ public class EnemyController : MonoBehaviour
     private GameObject player;
     private bool hasMovedOnThisBeat;
     private bool wasBeatOn;
+    
+    private Vector3 previousMove;
 
     private EnemySpriteController enemySpriteController; // Reference to the EnemySpriteController
     private Vector3 movePoint; // Use a Vector3 variable for movePoint
@@ -85,11 +87,12 @@ public class EnemyController : MonoBehaviour
                 {
                     movePoint = transform.position + moveDirection; // Update the movePoint
                     hasMovedOnThisBeat = true;
+                    
                 }
 
                 if ((distanceX <= preferredDistance && sameY) || (distanceY <= preferredDistance && sameX))
                 {
-                    if (canFireProjectile)
+                    if (canFireProjectile && previousMove == movePoint)
                     {
                         Vector2 directionToPlayerNormalized = (player.transform.position - transform.position).normalized;
                         RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayerNormalized, preferredDistance, obstacleMask);
@@ -112,20 +115,33 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+
+        
+
+
         // Check if the beat just started
         if (beatController.isBeatOn && !wasBeatOn)
         {
             hasMovedOnThisBeat = false;
+            previousMove = movePoint;
         }
 
         // Update wasBeatOn to reflect the current state
         wasBeatOn = beatController.isBeatOn;
 
+    
         // Check if the active projectile is destroyed
         if (activeProjectile == null)
         {
             canFireProjectile = true; // Enable firing if there's no active projectile
+        } 
+
+        if(previousMove != movePoint){
+            
+            hasMovedOnThisBeat = true;
+
         }
+
     }
 
     public bool HasMovedOnThisBeat()

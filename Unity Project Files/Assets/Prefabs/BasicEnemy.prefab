@@ -78,12 +78,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  movePoint: {fileID: 8832815410139716938}
   whatStopsMovement:
     serializedVersion: 2
     m_Bits: 256
   projectilePrefab: {fileID: 4346971389278527870, guid: bdf594cbab6e9554ab967144585be0ab, type: 3}
-  preferredDistance: 2
+  preferredDistance: 4
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
   beatController: {fileID: 0}
 --- !u!1 &8832815411210570480
 GameObject:

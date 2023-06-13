@@ -458,6 +458,18 @@ PrefabInstance:
       propertyPath: centerObject
       value: 
       objectReference: {fileID: 2069650724}
+    - target: {fileID: 554180659003898082, guid: ab87fc0c2b898f14881004bf7be1e189, type: 3}
+      propertyPath: gridTilePrefabC
+      value: 
+      objectReference: {fileID: 5662854590431866162, guid: 0be3bf2960a7eab49a08b6134b65cf50, type: 3}
+    - target: {fileID: 554180659003898082, guid: ab87fc0c2b898f14881004bf7be1e189, type: 3}
+      propertyPath: generatePerimeter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 554180659003898082, guid: ab87fc0c2b898f14881004bf7be1e189, type: 3}
+      propertyPath: perimeterThickness
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 554180659377733551, guid: ab87fc0c2b898f14881004bf7be1e189, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1030,7 +1042,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8832815410602669732, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8832815410602669732, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
       propertyPath: m_LocalPosition.y

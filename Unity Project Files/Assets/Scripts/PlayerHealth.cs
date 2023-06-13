@@ -78,8 +78,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        Destroy(gameObject);
-
         overlayCanvas.enabled = true;
 
         Time.timeScale = 0f;

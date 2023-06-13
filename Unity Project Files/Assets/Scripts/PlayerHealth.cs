@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int maxHealth = 3;
-    private int currentHealth;
+    public int maxHealth = 6;
+    public int currentHealth;
 
     void Start()
     {
@@ -24,6 +24,6 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        // Handle player death here
+        Destroy(gameObject);
     }
 }

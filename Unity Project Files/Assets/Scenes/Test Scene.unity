@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &320494897 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1311766307486924821, guid: e5c75c292dfc3eb4c83b3f1bb4468759, type: 3}
+  m_PrefabInstance: {fileID: 1311766307876232502}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1676891625 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 554180659919392288, guid: ab87fc0c2b898f14881004bf7be1e189, type: 3}
@@ -144,6 +149,46 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1311766307486924818, guid: e5c75c292dfc3eb4c83b3f1bb4468759, type: 3}
   m_PrefabInstance: {fileID: 1311766307876232502}
   m_PrefabAsset: {fileID: 0}
+--- !u!61 &2069650726
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320494897}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.1, y: 0.1}
+  m_EdgeRadius: 0
+--- !u!114 &2069650727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 320494897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c374c85662c07c24994b6837f5d9f615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 6
+  currentHealth: 0
 --- !u!1001 &554180660992099391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -338,8 +383,16 @@ PrefabInstance:
       value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1311766307033764670, guid: e5c75c292dfc3eb4c83b3f1bb4468759, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1311766307033764670, guid: e5c75c292dfc3eb4c83b3f1bb4468759, type: 3}
       propertyPath: m_Offset.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1311766307033764670, guid: e5c75c292dfc3eb4c83b3f1bb4468759, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1311766307486924818, guid: e5c75c292dfc3eb4c83b3f1bb4468759, type: 3}
       propertyPath: m_RootOrder
@@ -413,7 +466,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1311766307033764670, guid: e5c75c292dfc3eb4c83b3f1bb4468759, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e5c75c292dfc3eb4c83b3f1bb4468759, type: 3}
 --- !u!1001 &5662854590382663968
 PrefabInstance:
@@ -538,6 +592,14 @@ PrefabInstance:
     - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
       propertyPath: moveSpeed
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
+      propertyPath: bulletDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
+      propertyPath: isStationary
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
       propertyPath: beatController

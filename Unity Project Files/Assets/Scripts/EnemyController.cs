@@ -12,7 +12,7 @@ public class EnemyController : MonoBehaviour
     public bool isStationary; // Added boolean to control if the enemy is stationary
 
     public BeatController beatController;
-
+    public int bulletDamage = 1; //amount of damage this enemy types bullets do
     private GameObject player;
     private bool hasMovedOnThisBeat;
     private bool wasBeatOn;

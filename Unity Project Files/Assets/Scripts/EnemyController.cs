@@ -164,4 +164,19 @@ public class EnemyController : MonoBehaviour
             }
         }
     }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            // reduce player health
+            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+             {
+                playerHealth.TakeDamage(bulletDamage);
+             }
+
+            // destroy the enemy
+            Destroy(gameObject);
+         }
+    }
 }

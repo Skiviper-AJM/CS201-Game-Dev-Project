@@ -158,7 +158,7 @@ public class EnemyController : MonoBehaviour
 
         if (((distanceX <= preferredDistance && sameY) || (distanceY <= preferredDistance && sameX)) || ((sameX && isStationary && distanceX >= preferredDistance) || (sameY && isStationary && distanceY >= preferredDistance)))
         {
-            if (canFireProjectile && previousMove == movePoint && beatCount > beatBuffer)
+            if (canFireProjectile && previousMove == movePoint)
             {
                 Vector2 directionToPlayerNormalized = (player.transform.position - transform.position).normalized;
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayerNormalized, preferredDistance, whatStopsMovement);

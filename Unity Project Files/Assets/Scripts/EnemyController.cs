@@ -26,6 +26,9 @@ public class EnemyController : MonoBehaviour
 
     private bool canFireProjectile; // Flag to control firing projectiles
 
+    public int beatBuffer = 0; // Here's the new integer for buffering beats
+    private int beatCount = 0; // Here's a counter for beats
+
     void Start()
     {
         hasMovedOnThisBeat = false;
@@ -47,15 +50,21 @@ public class EnemyController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (beatController.isBeatOn && !wasBeatOn)
+        {
+            beatCount++;
+        }
+
         if (!isStationary) // Enemy will only move if isStationary is false
         {
             transform.position = Vector3.MoveTowards(transform.position, movePoint, moveSpeed * Time.fixedDeltaTime);
 
             if (Vector3.Distance(transform.position, movePoint) <= .05f)
             {
-                if (beatController.isBeatOn && !hasMovedOnThisBeat)
+                if (beatController.isBeatOn && !hasMovedOnThisBeat && beatCount > beatBuffer)
                 {
                     CalculateMoveDirection();
+                    beatCount = 0;
                 }
             }
         }
@@ -70,6 +79,7 @@ public class EnemyController : MonoBehaviour
         // Check if the beat just started
         if (beatController.isBeatOn && !wasBeatOn)
         {
+            beatCount++;
             hasMovedOnThisBeat = false;
             previousMove = movePoint;
         }
@@ -127,10 +137,11 @@ public class EnemyController : MonoBehaviour
                 moveDirection = new Vector3(Mathf.Sign(directionToPlayer.x), 0, 0);
         }
 
-        if (!Physics2D.OverlapCircle(transform.position + moveDirection, .2f, whatStopsMovement))
+        if (!Physics2D.OverlapCircle(transform.position + moveDirection, .2f, whatStopsMovement) && beatCount > beatBuffer)
         {
             movePoint = transform.position + moveDirection; // Update the movePoint
             hasMovedOnThisBeat = true;
+            beatCount = 0;
         }
 
         CheckAndFireProjectile();
@@ -147,7 +158,7 @@ public class EnemyController : MonoBehaviour
 
         if (((distanceX <= preferredDistance && sameY) || (distanceY <= preferredDistance && sameX)) || ((sameX && isStationary && distanceX >= preferredDistance) || (sameY && isStationary && distanceY >= preferredDistance)))
         {
-            if (canFireProjectile && previousMove == movePoint)
+            if (canFireProjectile && previousMove == movePoint && beatCount > beatBuffer)
             {
                 Vector2 directionToPlayerNormalized = (player.transform.position - transform.position).normalized;
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToPlayerNormalized, preferredDistance, whatStopsMovement);
@@ -160,10 +171,12 @@ public class EnemyController : MonoBehaviour
                     newProjectile.GetComponent<EnemyProjectile>().direction = enemySpriteController.GetFacingDirection();
                     activeProjectile = newProjectile;
                     canFireProjectile = false;
+                    beatCount = 0;
                 }
             }
         }
     }
+    
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
@@ -171,12 +184,12 @@ public class EnemyController : MonoBehaviour
             // reduce player health
             PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
             if (playerHealth != null)
-             {
+            {
                 playerHealth.TakeDamage(bulletDamage);
-             }
+            }
 
             // destroy the enemy
             Destroy(gameObject);
-         }
+        }
     }
 }

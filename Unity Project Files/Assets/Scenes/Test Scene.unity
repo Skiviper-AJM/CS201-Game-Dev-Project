@@ -344,7 +344,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.92753625, y: 0.92753625}
+    oldSize: {x: 2.56, y: 2.56}
     newSize: {x: 0.92753625, y: 0.92753625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -374,6 +374,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &1583025680
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583025669}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 30d88686cfc756c4da4ac908c4755348, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1639646047 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5662854590431866164, guid: 0be3bf2960a7eab49a08b6134b65cf50, type: 3}
@@ -737,42 +758,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 984762172161164132, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
-      propertyPath: m_Enabled
-      value: 0
+    - target: {fileID: 984762172161164129, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
-    - target: {fileID: 984762172161164133, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
-      propertyPath: RedHeartA
-      value: 
-      objectReference: {fileID: 225692563}
-    - target: {fileID: 984762172161164133, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
-      propertyPath: RedHeartB
-      value: 
-      objectReference: {fileID: 1034497025}
-    - target: {fileID: 984762172161164133, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
-      propertyPath: RedHeartC
-      value: 
-      objectReference: {fileID: 1342009367}
-    - target: {fileID: 984762172161164133, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 984762172161164133, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
-      propertyPath: RedHalfHeartA
-      value: 
-      objectReference: {fileID: 1268356265}
-    - target: {fileID: 984762172161164133, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
-      propertyPath: RedHalfHeartB
-      value: 
-      objectReference: {fileID: 1067169402}
-    - target: {fileID: 984762172161164133, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
-      propertyPath: RedHalfHeartC
-      value: 
-      objectReference: {fileID: 457310431}
-    - target: {fileID: 984762172161164133, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
-      propertyPath: overlayCanvas
-      value: 
-      objectReference: {fileID: 1832865882}
     - target: {fileID: 984762172161164134, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -821,9 +810,7 @@ PrefabInstance:
       propertyPath: beatController
       value: 
       objectReference: {fileID: 1676891625}
-    m_RemovedComponents:
-    - {fileID: 984762172161164132, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
-    - {fileID: 984762172161164133, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62c0d64f6cb4c844fab338f659b18941, type: 3}
 --- !u!20 &984762170899488323 stripped
 Camera:
@@ -1116,8 +1103,24 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
+      propertyPath: skipBeats
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
+      propertyPath: beatBuffer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
+      propertyPath: ignoreBeats
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
       propertyPath: bulletDamage
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
+      propertyPath: ignoredBeats
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
       propertyPath: isStationary
@@ -1137,7 +1140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
       propertyPath: preferredDistance
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8832815410602669735, guid: 019d1c9ef825be4439a5e87ce7964b40, type: 3}
       propertyPath: obstacleMask.m_Bits
